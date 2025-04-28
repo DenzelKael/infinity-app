@@ -22,7 +22,7 @@ class AccountController extends Controller
     public function store(StoreAccountRequest $request)
     {
         Account::create($request->validated());
-        return to_route('accounts.index');
+        return to_route('accounts.index')->with('message', 'Cuenta creada correctamente.');
     }
 
     public function show(Account $account)
@@ -32,17 +32,22 @@ class AccountController extends Controller
 
     public function edit(Account $account)
     {
-        //
+        return inertia('accounts/edit/AccountEditPage', ['account' => $account]);
     }
 
     public function update(UpdateAccountRequest $request, Account $account)
     {
-        //
+        $data = $request->only(['name', 'description', 'balance', 'status']);
+        dd($data);
+        $account->update(array_filter($data));
+
+        return to_route('accounts.index')->with('message', 'Cuenta actualizada correctamente.');
     }
+
 
     public function destroy(Account $account)
     {
         $account->delete();
-        return to_route('accounts.index');
+        return to_route('accounts.index')->with('message', 'Cuenta eliminada correctamente.');
     }
 }

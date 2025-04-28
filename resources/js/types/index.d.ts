@@ -48,5 +48,7 @@ export interface Account {
     description: string;
     balance: number;
     status: boolean;
+    [key: string]: any;
 }
+
 

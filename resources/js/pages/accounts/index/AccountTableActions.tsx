@@ -1,27 +1,19 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Link, useForm } from '@inertiajs/react';
-import { Eye, Trash } from 'lucide-react';
+import { Eye, SquarePen, Trash } from 'lucide-react';
 
 interface AccountTableActionsProps {
     accountId: number;
 }
 
 export default function AccountTableActions({ accountId }: AccountTableActionsProps) {
-    // Usamos useForm para manejar el formulario de eliminación
     const { delete: destroy } = useForm();
 
     const handleDelete = () => {
         if (confirm('¿Estás seguro de que quieres eliminar esta cuenta?')) {
-            // Llamamos a destroy para realizar la eliminación de la cuenta
             destroy(`/accounts/${accountId}`, {
-                onSuccess: () => {
-                    alert('Cuenta eliminada');
-                    // Aquí podrías redirigir al usuario o actualizar la interfaz según sea necesario
-                },
-                onError: (error) => {
-                    alert('Error al eliminar la cuenta');
-                    console.error(error);
-                },
+                onSuccess: () => {},
+                onError: (error) => {},
             });
         }
     };
@@ -30,8 +22,8 @@ export default function AccountTableActions({ accountId }: AccountTableActionsPr
         <TooltipProvider>
             <div className="flex space-x-2">
                 <Tooltip>
-                    <TooltipTrigger>
-                        <Link preserveScroll href={`/accounts/${accountId}`} className="text-link">
+                    <TooltipTrigger asChild>
+                        <Link preserveScroll href={`/accounts/${accountId}`} className="text-blue-500 hover:text-blue-700">
                             <Eye />
                         </Link>
                     </TooltipTrigger>
@@ -39,10 +31,19 @@ export default function AccountTableActions({ accountId }: AccountTableActionsPr
                         <p>Ver Cuenta</p>
                     </TooltipContent>
                 </Tooltip>
-
                 <Tooltip>
-                    <TooltipTrigger>
-                        <button onClick={handleDelete} className="text-red-500">
+                    <TooltipTrigger asChild>
+                        <Link preserveScroll href={`/accounts/${accountId}/edit`} className="text-green-500 hover:text-green-700">
+                            <SquarePen />
+                        </Link>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        <p>Editar Cuenta</p>
+                    </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <button onClick={handleDelete} className="text-red-500 hover:text-red-700">
                             <Trash />
                         </button>
                     </TooltipTrigger>

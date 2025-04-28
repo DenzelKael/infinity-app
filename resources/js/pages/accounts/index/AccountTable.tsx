@@ -17,8 +17,8 @@ export default function AccountTable({ accounts }: AccountTableProps) {
                         <TableHead className="w-[100px]">ID</TableHead>
                         <TableHead>Nombre</TableHead>
                         <TableHead>Estado</TableHead>
-                        <TableHead className="text-right">Saldo</TableHead>
-                        <TableHead className="text-right">Acciones</TableHead>
+                        <TableHead>Saldo</TableHead>
+                        <TableHead>Acciones</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -32,8 +32,8 @@ export default function AccountTable({ accounts }: AccountTableProps) {
                             <TableCell>
                                 <Badge variant={account.status ? 'default' : 'destructive'}>{account.status ? 'Active' : 'Inactive'}</Badge>
                             </TableCell>
-                            <TableCell className="text-right">Bs. {account.balance.toFixed(2)}</TableCell>
-                            <TableCell className="text-right">
+                            <TableCell>Bs. {account.balance.toFixed(2)}</TableCell>
+                            <TableCell>
                                 <AccountTableActions accountId={account.id} />
                             </TableCell>
                         </TableRow>

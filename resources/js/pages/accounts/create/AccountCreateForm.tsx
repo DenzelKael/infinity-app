@@ -3,28 +3,24 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Account } from '@/types';
 import { useState } from 'react';
 
 type Props = {
-    data: {
-        name: string;
-        description: string;
-        balance: number;
-        status: boolean;
-    };
-    setData: (field: string, value: any) => void;
+    data: Account | Omit<Account, 'id'>;
+    setData: (field: keyof Account, value: any) => void;
     submit: (e: React.FormEvent) => void;
     processing: boolean;
-    errors: Record<string, string>;
+    errors: Partial<Record<keyof Account, string>>;
 };
 
 export default function AccountCreateForm({ data, setData, submit, processing, errors }: Props) {
-    const [localErrors, setLocalErrors] = useState<Record<string, string>>({});
+    const [localErrors, setLocalErrors] = useState<Partial<Record<keyof Account, string>>>({});
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        const newErrors: Record<string, string> = {};
+        const newErrors: Partial<Record<keyof Account, string>> = {};
 
         if (!data.name.trim()) {
             newErrors.name = 'El nombre es obligatorio.';
@@ -46,11 +42,11 @@ export default function AccountCreateForm({ data, setData, submit, processing, e
         setLocalErrors({});
         submit(e);
     };
-
+    console.log(data)
     return (
         <Card className="w-[350px]">
             <CardHeader>
-                <CardTitle>Crear nueva cuenta</CardTitle>
+                <CardTitle>{data.id ? 'Editar cuenta' : 'Crear nueva cuenta'}</CardTitle>
             </CardHeader>
             <CardContent>
                 <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
@@ -101,7 +97,7 @@ export default function AccountCreateForm({ data, setData, submit, processing, e
 
                     <div className="grid gap-2">
                         <Button type="submit" disabled={processing} className="w-full">
-                            {processing ? 'Creando cuenta...' : 'Crear cuenta'}
+                            {processing ? 'Guardando cambios...' : 'Guardar cambios'}
                         </Button>
                     </div>
                 </form>
